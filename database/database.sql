@@ -6,10 +6,10 @@
 CREATE DATABASE IF NOT EXISTS sweet_dreams;
 USE sweet_dreams;
 
---==============================================
+--=================================================
 --Creacion de tabla: Usuario
 --Almacena clientes, administradores y empleados
---==============================================
+--=================================================
 
 CREATE TABLE IF NOT EXISTS usuarios(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -19,8 +19,10 @@ CREATE TABLE IF NOT EXISTS usuarios(
     rol ENUM("cliente", "empleado", "admin") NOT NULL DEFAULT "cliente",
     telefono VARCHAR(20),
     direccion VARCHAR(100) ,
+    pregunta_seguridad VARCHAR(255),
+    respuesta_seguridad VARCHAR(255),
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci ;
 
 --==================================================================
 --Creacion de tabla: Producto
@@ -34,7 +36,7 @@ CREATE TABLE IF NOT EXISTS productos(
     stock INT NOT NULL DEFAULT 1,
     imagen VARCHAR(255) ,
     creacion_imagen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 --==================================================================
 --Creacion de tabla: Pedido
 --Pedidos realizados por los clientes
@@ -52,7 +54,7 @@ CREATE TABLE IF NOT EXISTS pedidos(
     FOREIGN KEY(cliente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE SET NULL
 
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- ======================================================
 -- Creacion de tabla: detalle_pedido
@@ -68,4 +70,13 @@ CREATE TABLE IF NOT EXISTS detalle_pedidos(
     subtotal DECIMAL(10,2)NOT NULL,
     FOREIGN KEY(pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
     FOREIGN KEY(producto_id) REFERENCES productos(id) ON DELETE CASCADE
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--===================================================================
+--Creaciones de indices
+--====================================================================
+-- Indice para filtrar usuarios por rol
+CREATE INDEX idx_usuarios_rol ON usuarios(rol);
+
+-- Indice para filtrar pedidos por estado
+CREATE INDEX idx_pedidos_estado ON pedidos(estado);
