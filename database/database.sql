@@ -1,15 +1,15 @@
---=============================================
---Base de datos: Sweet Dreams
---Sistema de gestion de pedido para pasteleria 
---=============================================
+-- =============================================
+-- Base de datos: Sweet Dreams
+-- Sistema de gestion de pedido para pasteleria 
+-- =============================================
 
 CREATE DATABASE IF NOT EXISTS sweet_dreams;
 USE sweet_dreams;
 
---=================================================
---Creacion de tabla: Usuario
---Almacena clientes, administradores y empleados
---=================================================
+-- =================================================
+-- Creacion de tabla: Usuario
+-- Almacena clientes, administradores y empleados
+-- =================================================
 
 CREATE TABLE IF NOT EXISTS usuarios(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,10 +24,10 @@ CREATE TABLE IF NOT EXISTS usuarios(
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci ;
 
---==================================================================
---Creacion de tabla: Producto
---catalogo de los productos de la pasteleria
---==================================================================
+-- ==================================================================
+-- Creacion de tabla: Producto
+-- catalogo de los productos de la pasteleria
+-- ==================================================================
 CREATE TABLE IF NOT EXISTS productos(
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS productos(
     imagen VARCHAR(255) ,
     creacion_imagen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
---==================================================================
---Creacion de tabla: Pedido
---Pedidos realizados por los clientes
---==================================================================
+-- ==================================================================
+-- Creacion de tabla: Pedido
+-- Pedidos realizados por los clientes
+-- ==================================================================
 
 CREATE TABLE IF NOT EXISTS pedidos(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -72,9 +72,9 @@ CREATE TABLE IF NOT EXISTS detalle_pedidos(
     FOREIGN KEY(producto_id) REFERENCES productos(id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
---===================================================================
---Creaciones de indices
---====================================================================
+-- ===================================================================
+-- Creaciones de indices
+-- ====================================================================
 -- Indice para filtrar usuarios por rol
 CREATE INDEX idx_usuarios_rol ON usuarios(rol);
 
