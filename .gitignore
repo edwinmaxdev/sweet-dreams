@@ -1,0 +1,12 @@
+#credenciales de la base de datos
+config/database.php
+
+#variable del entorno
+.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
