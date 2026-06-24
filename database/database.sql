@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS usuarios(
     direccion VARCHAR(100) ,
     pregunta_seguridad VARCHAR(255),
     respuesta_seguridad VARCHAR(255),
+    estado ENUM('activo', 'inactivo') NOT NULL DEFAULT 'activo',
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci ;
 
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS productos(
     nombre VARCHAR(50) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL DEFAULT 1,
+    stock INT NOT NULL DEFAULT 0,
     imagen VARCHAR(255) ,
     creacion_imagen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS pedidos(
     cliente_id INT NOT NULL,
     empleado_id INT NULL,
     fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fecha_entrega Date,
+    fecha_entrega DATETIME,
     estado ENUM("pendiente", "preparacion","listo", "entregado","cancelado") NOT NULL DEFAULT "pendiente",
     total DECIMAL(10,2) NOT NULL,
     nota text,
@@ -65,7 +66,7 @@ CREATE TABLE IF NOT EXISTS detalle_pedidos(
     id INT AUTO_INCREMENT PRIMARY KEY,
     pedido_id INT NOT NULL,
     producto_id INT NOT NULL,
-    cantidad INT NOT NULL DEFAULT 0,
+    cantidad INT NOT NULL DEFAULT 1,
     precio_unitario DECIMAL(10,2) NOT NULL,
     subtotal DECIMAL(10,2)NOT NULL,
     FOREIGN KEY(pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
@@ -80,3 +81,10 @@ CREATE INDEX idx_usuarios_rol ON usuarios(rol);
 
 -- Indice para filtrar pedidos por estado
 CREATE INDEX idx_pedidos_estado ON pedidos(estado);
+
+CREATE INDEX idx_usuarios_estado ON usuarios(estado);
+CREATE INDEX idx_pedidos_cliente ON pedidos(cliente_id);
+CREATE INDEX idx_pedidos_empleado ON pedidos(empleado_id);
+CREATE INDEX idx_pedidos_fecha ON pedidos(fecha_pedido);
+CREATE INDEX idx_detalle_pedido ON detalle_pedidos(pedido_id);
+CREATE INDEX idx_detalle_producto ON detalle_pedidos(producto_id);
